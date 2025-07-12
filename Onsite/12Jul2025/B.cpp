@@ -26,17 +26,31 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-void solve() {
+bool pc(ll n){
+  string s = to_string(n);
 
-  ll A, B;
-  cin >> A >> B;
+  for(int i = 0, j = s.size() - 1; i < j; i++, j--){
+    if(s[i] != s[j]) return false;
+  }
   
-  if(A + B > 23){
-    cout << A + B - 24 << endl;
+  return true;
+}
+
+void solve() {
+  ll n;
+  cin >> n;
+  
+
+  if(pc(n)) cout << "YES" << endl;
+  else{
+    while(n % 10 == 0){
+      n = n / 10;
+    }
+
+    if(pc(n)) cout << "YES" << endl;
+    else cout << "NO" << endl;
   }
-  else {
-    cout << A + B << endl;
-  }
+
 
 }
 
