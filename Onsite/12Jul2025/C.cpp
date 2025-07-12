@@ -26,32 +26,40 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-bool pc(ll n){
-  string s = to_string(n);
-
-  for(int i = 0, j = s.size() - 1; i < j; i++, j--){
-    if(s[i] != s[j]) return false;
-  }
-  
-  return true;
-}
-
 void solve() {
-  ll n;
-  cin >> n;
-  
 
-  if(pc(n)) cout << "Yes" ;
-  else{
-    while(n % 10 == 0){
-      n = n / 10;
-    }
+  string s, t;
+  cin >> s;
+  cin >> t;
 
-    if(pc(n)) cout << "Yes" ;
-    else cout << "No" ;
+  int n2 = 3;
+
+  transform(t.begin(), t.end(), t.begin(), ::tolower);
+  if (t[2] == 'x') {
+    n2--;
+    t.pop_back();
   }
 
+  ll n1 = s.size();
 
+  for (ll i = 0; i < n2; i++) {
+    for (ll j = 0; j < n1; j++) {
+      if (s[j] == t[i]) {
+        s[j] = 'A';
+        break;
+      } else if (j == n1 - 1) {
+        cout << "No" << endl;
+        return;
+      }
+      else{
+        s[j] = 'A';
+      }
+    }
+  }
+
+  cout << "Yes" << endl;
+
+  return;
 }
 
 int main() {
@@ -61,3 +69,4 @@ int main() {
     solve();
   return 0;
 }
+
