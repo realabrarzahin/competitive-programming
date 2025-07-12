@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vll = vector<ll>;
+using umll = unordered_map<int, int>;
+
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define pb push_back
+#define ff first
+#define ss second
+#define sz(x) (int)(x).size()
+
+const int MOD  = 1e9 + 7;        // Common modulus
+const int INF  = 1e9 + 5;        // Integer infinity
+const ll LINF  = 1e18 + 5;       // Long long infinity
+const int N    = 2e5 + 5;        // Adjust according to problem size
+
+void fastIO() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+}
+
+void solve() {
+    int n, x, y;
+    cin >> n >> x >> y;
+    
+    vi a(n);
+    vector<pii> ry(n);
+
+    for(int i = 0; i < n; i++){
+        int k; cin >> k;
+
+        a[i] = k;
+
+        ry[i].ff = k % y;
+        ry[i].ss = i;
+
+    }
+
+    sort(ry.begin(), ry.end());
+
+    // for(int i = 0; i < n; i++){
+    //     cout << rx[i].ss << ": " << rx[i].ff << " " << ry[rx[i].ss] << endl;
+    // }
+
+
+    int ans = 0;
+
+
+    int l = 0, r = n - 1;
+
+    while(l < r){
+        int dif = ry[r].ff - ry[l].ff;
+
+        if(dif > 0){
+           l++; 
+        }
+        else if(dif < 0){
+            r--;
+        }
+        else{
+            if((a[ry[r].ss + ry[l].ss]) % x == 0){
+                ans++;
+            }
+
+            l++;
+        }
+    }
+
+
+
+    cout << ans << endl;
+    
+}
+
+int main() {
+    fastIO();
+    int T; cin >> T;               // Comment this line if single test case
+    while (T--) solve();
+    return 0;
+}
+
+
+
