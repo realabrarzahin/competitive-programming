@@ -31,7 +31,7 @@ void solve() {
   ll A, B;
   cin >> A >> B;
 
-  cout << A + B << endl;
+  cout << A + B;
 }
 
 int main() {
