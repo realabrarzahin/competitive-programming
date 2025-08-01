@@ -26,62 +26,45 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
-  string s;
-  cin >> s;
+  ll n, k;
+  cin >> n >> k;
 
-  char pv;
+  vll a(n);
+  for (ll i = 0; i < n; i++)
+    cin >> a[i];
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  ll s = a[k - 1];
 
-  for (int i = 0; i < s.size(); i++) {
+  sort(a.begin(), a.end());
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
+  ll ki = lower_bound(a.begin(), a.end(), s) - a.begin();
 
-        if (i == (s.size() - 1)) {
+  bool ans = true;
 
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
+  ll wl = 1;
 
-      }
+  for (ll i = ki; i < n; i++) {
 
-      else {
-        pv = s[i];
+    if (i == n - 1)
+      break;
 
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
+    if ((a[i] - wl + 1) < (a[i + 1] - a[i])) {
+      ans = false;
 
-        n = 0;
-      }
+      break;
+    } else {
+      wl = wl + (a[i + 1] - a[i]);
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  if (ans)
+    cout << "YES" << endl;
+
+  else {
+    cout << "NO" << endl;
+  }
 }
 
 int main() {

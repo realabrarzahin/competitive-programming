@@ -26,62 +26,35 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
+void solve() {
+  ll n, k;
+  cin >> n >> k;
 
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
+  vll l(n), r(n), real(n);
+
+  for (ll i = 0; i < n; i++) {
+    cin >> l[i] >> r[i] >> real[i];
   }
 
-  return res % 998244353;
-}
+  ll x = 0;
+  ll x1 = 0;
 
-void solve() {
-
-  string s;
-  cin >> s;
-
-  char pv;
-
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
-
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
+  for (int i = 0; i < n; i++) {
+    if (k <= r[i] && k >= l[i]) {
+      x = max(k, real[i]);
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    if (k <= r[i] && k >= l[i]) {
+      for (int j = 0; j < n; j++) {
+        if (real[i] >= l[j] && real[i] <= r[j]) {
+          x1 = max(real[j], real[i]);
         }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
       }
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  cout << max(x, x1) << endl;
 }
 
 int main() {

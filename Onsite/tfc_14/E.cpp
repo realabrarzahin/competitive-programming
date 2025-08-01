@@ -26,68 +26,51 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  int n, k;
+  cin >> n >> k;
 
-  string s;
-  cin >> s;
+  vi a(n);
+  for (auto &x : a)
+    cin >> x;
 
-  char pv;
+  vi q(k);
+  for (auto &x : q)
+    cin >> x;
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  sort(a.rbegin(), a.rend());
 
-  for (int i = 0; i < s.size(); i++) {
+  ll count = 0;
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
+  for (int i = 0; i < k; i++) {
+    ll b = q[i];
 
-        if (i == (s.size() - 1)) {
+    for (ll j = 0; j < n; j++) {
+      if (b >= a[j]) {
 
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
+        b -= a[j];
+        count++;
       }
 
-      else {
-        pv = s[i];
+      if (b == 0) {
+        cout << count << endl;
 
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
+        count = 0;
+        break;
+      }
 
-        n = 0;
+      if (b != 0 && j == n - 1) {
+        cout << -1 << endl;
+        count = 0;
+        break;
       }
     }
   }
-
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
 }
 
 int main() {
   fastIO();
-  int T;
-  cin >> T; // Comment this line if single test case
+  int T = 1;
   while (T--)
     solve();
   return 0;

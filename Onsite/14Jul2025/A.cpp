@@ -26,68 +26,56 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  vi a(3);
+  cin >> a[0] >> a[1] >> a[2];
 
-  string s;
-  cin >> s;
+  if (a[0] == a[1]) {
 
-  char pv;
+    if (a[1] == a[2]) {
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
-
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+      cout << 0 << endl;
+      return;
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  ll count = 0;
+
+  if (a[0] % 2 == a[1] % 2) {
+    if (a[1] % 2 != a[2] % 2) {
+      a[0]++;
+      a[1]++;
+
+      count++;
+    }
+  } else if (a[1] % 2 == a[2] % 2) {
+
+    a[2]++;
+    a[1]++;
+
+    count++;
+  }
+
+  else {
+    a[0]++;
+    a[2]++;
+
+    count++;
+  }
+
+  sort(a.begin(), a.end());
+
+  count += (2 * a[2] - a[0] - a[1]) / 2;
+
+  cout << count << endl;
+
+  return;
 }
 
 int main() {
   fastIO();
   int T;
-  cin >> T; // Comment this line if single test case
+  T = 1;
   while (T--)
     solve();
   return 0;

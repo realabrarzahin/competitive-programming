@@ -26,62 +26,35 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
-  string s;
-  cin >> s;
+  ll n, a, b;
+  cin >> n >> a >> b;
 
-  char pv;
+  vll ar(n + 1);
+  ar.push_back(0);
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  vll ps(n + 1);
+  ar.push_back(0);
 
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
-    }
+  for (int i = 1; i <= n; i++) {
+    cin >> ar[i];
+    ps[i] = ps[i - 1] + ar[i];
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  // for(int i = 0; i < n + 1; i++){
+  //   cout << ar[i] << " " << ps[i] << endl;
+  // }
+
+  ll mn = (a + b) * ar[n];
+
+  for (int i = 0; i < n; i++) {
+    ll ans = (a + b) * ar[i] + b * ((ps[n] - ps[i]) - ar[i] * (n - i));
+
+    mn = min(ans, mn);
+  }
+
+  cout << mn << endl;
 }
 
 int main() {

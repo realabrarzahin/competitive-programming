@@ -26,62 +26,55 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
-  string s;
-  cin >> s;
+  ll n;
+  cin >> n;
 
-  char pv;
+  vector<pair<long, long>> ar(n);
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  for (ll i = 0; i < n; i++) {
 
-  for (int i = 0; i < s.size(); i++) {
+    ll x, y;
+    cin >> x >> y;
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
-    }
+    ar[i] = {x, y};
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  vector<pair<long, long>> ans;
+       set<ll> no;
+
+
+  for (ll i = 0; i < n && !no.count(i + 1); i++) {
+    ll max = 0;
+
+    ll a;
+    ll b;
+
+    for (ll j = i + 1; j < n && !no.count(j + 1); j++) {
+      ll ms = abs(ar[i].ff - ar[j].ff) + abs(ar[i].ss - ar[j].ss);
+
+      if (ms >= max) {
+        a = i + 1;
+        b = j + 1;
+
+        max = ms;
+      }
+    }
+
+    ans.push_back({a, b});
+  
+
+    no.insert(a);
+    no.insert(b);
+    
+  
+
+
+  }
+
+  for (auto x : ans)
+    cout << x.ff << " " << x.ss << endl;
 }
 
 int main() {

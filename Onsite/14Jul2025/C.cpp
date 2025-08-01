@@ -26,68 +26,67 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  ll n;
+  cin >> n;
 
   string s;
   cin >> s;
+  ll ans;
 
-  char pv;
+  vector<pair<int, int>> we(n);
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  for (int i = 0; i < n; i++) {
+    if (!i) {
+      if (s[i] == 'W')
+        we[0] = {1, 0};
+      else
+        we[0] = {0, 1};
+    }
 
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
     else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+      if (s[i] == 'W')
+        we[i] = {we[i - 1].ff + 1, we[i - 1].ss};
+      else
+        we[i] = {we[i - 1].ff, we[i - 1].ss + 1};
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+
+  for (int i = 0; i < n; i++) {
+
+    ll count = 0;
+
+    if (i && i != (n - 1)) {
+
+        count = we[i - 1].ff + (we[n - 1].ss - we[i].ss);
+    }
+    else if(i == 0){
+      if(s[i] == 'W') count = we[n - 1].ss;
+      else count = we[n - 1].ss - 1;
+    }
+    else{
+
+      if(s[i] == 'W') count = we[i].ff - 1;
+      else count = we[i].ff;
+     
+    }
+
+    if (i)
+      ans = min(ans, count);
+    else
+      ans = count;
+  }
+
+  cout << ans << endl;
 }
 
 int main() {
   fastIO();
   int T;
-  cin >> T; // Comment this line if single test case
+
+  T = 1;
+
   while (T--)
     solve();
   return 0;

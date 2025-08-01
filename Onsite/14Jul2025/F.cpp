@@ -26,68 +26,60 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
   string s;
   cin >> s;
 
-  char pv;
+  ll a, b;
+  cin >> a >> b;
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  ll t = 0, f = 0;
 
-  for (int i = 0; i < s.size(); i++) {
+  ll sz = s.size();
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
+  for (ll i = 0; i < sz; i++) {
+    if (s[i] == 'F')
+      f++;
+    else
+      t++;
+  }
 
-        if (i == (s.size() - 1)) {
+  ll d = abs(a) + abs(b);
 
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
+  if (t == 0 && b == 0 && a >= 0) {
+    if (f == d)
+      cout << "Yes" << endl;
+    else
+      cout << "No" << endl;
+  }
 
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+  else if (t == 1 && a >= 0) {
+    if (f == d) {
+      cout << "Yes" << endl;
+      return;
+    } else {
+      cout << "No" << endl;
+      return;
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  else if (t == 1 && a < 0) {
+    cout << "No" << endl;
+    return;
+  } else {
+    if ((f - d) % 2) {
+      cout << "No" << endl;
+    } else {
+      cout << "Yes" << endl;
+    }
+  }
 }
 
 int main() {
   fastIO();
   int T;
-  cin >> T; // Comment this line if single test case
+  T = 1; // Comment this line if single test case
   while (T--)
     solve();
   return 0;

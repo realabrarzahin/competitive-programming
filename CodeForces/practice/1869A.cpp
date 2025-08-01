@@ -26,62 +26,66 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
-  string s;
-  cin >> s;
+  ll n;
+  cin >> n;
 
-  char pv;
+  vll a(n);
+  for (int i = 0; i < n; i++)
+    cin >> a[i];
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  ll count = 0;
+  vector<pair<int, int>> ans;
 
-  for (int i = 0; i < s.size(); i++) {
+  if (n % 2 == 0) {
+    ll x;
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
+    ans.push_back({1, n});
+    count++;
 
-        if (i == (s.size() - 1)) {
+    for (int i = 0; i < n; i++) {
 
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+      if (!i)
+        x = a[i];
+      else
+        x = x ^ a[i];
     }
+
+    if (x) {
+      ans.push_back({1, n});
+      count++;
+    }
+
+  } else {
+
+    ll x;
+
+    ans.push_back({1, n - 1});
+    count++;
+
+    for (int i = 0; i < n - 1; i++) {
+
+      if (!i)
+        x = a[i];
+      else
+        x = x ^ a[i];
+    }
+
+    if (x) {
+      ans.push_back({1, n - 1});
+      count++;
+    }
+
+    ans.push_back({n, n});
+    count++;
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  cout << count << endl;
+
+  for (auto x : ans)
+    cout << x.ff << " " << x.ss << endl;
+
 }
 
 int main() {

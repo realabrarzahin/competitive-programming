@@ -26,68 +26,63 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  ll n;
+  ll h;
+  cin >> n >> h;
 
-  string s;
-  cin >> s;
+  vll a(n), b(n);
 
-  char pv;
+  ll mxa = 0;
+  ll mxb = 0;
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  for (int i = 0; i < n; i++) {
 
-  for (int i = 0; i < s.size(); i++) {
+    cin >> a[i] >> b[i];
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
-    }
+    mxa = max(mxa, a[i]);
+    mxb = max(mxb, b[i]);
   }
 
-  if (af)
-    cout << af << " " << as << endl;
+  if ((h - mxb) <= 0) {
+    cout << 1 << endl;
+
+    return;
+  }
+
+  sort(b.rbegin(), b.rend());
+
+  ll count = 0;
+
+  ll i = 0;
+  while (true) {
+    if (b[i] >= mxa) {
+      h -= b[i];
+      count++;
+
+      if (h <= 0) {
+        cout << count << endl;
+        return;
+      }
+    } else
+      break;
+
+    i++;
+  }
+
+  if (h % mxa)
+    count += (h / mxa) + 1;
   else
-    cout << 0 << " " << 1 << endl;
+    count += (h / mxa);
+
+  cout << count << endl;
 }
 
 int main() {
   fastIO();
   int T;
-  cin >> T; // Comment this line if single test case
+  T = 1;
+
   while (T--)
     solve();
   return 0;

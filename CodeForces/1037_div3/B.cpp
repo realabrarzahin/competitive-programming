@@ -26,62 +26,53 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  ll n, k;
+  cin >> n >> k;
 
-  string s;
-  cin >> s;
+  vi a(n);
+  for (auto &x : a)
+    cin >> x;
 
-  char pv;
+  a.push_back(1);
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  ll count = 0;
 
-  for (int i = 0; i < s.size(); i++) {
+  if (k == 1) {
+    for (ll i = 0; i <= n;) {
+      if (!a[i]) {
+        count++;
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
+        i = i + 2;
 
-        if (i == (s.size() - 1)) {
+      } else {
+        i = i + 1;
+      }
+    }
+  } else {
 
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
+    for (ll i = 0; i + k <= a.size() ; ) {
+
+      bool ans = true;
+
+      for (ll j = i; j < (i + k); j++) {
+        if (a[j]) {
+
+          ans = false;
+          break;
         }
-
       }
 
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
+      if (ans) {
+        i = i + k + 1;
+        count++;
+      }else{
+        i = i + 1;
       }
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  cout << count << endl;
 }
 
 int main() {

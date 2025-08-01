@@ -26,62 +26,35 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
-  string s;
-  cin >> s;
+  ll a, b, k;
+  cin >> a >> b >> k;
 
-  char pv;
-
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
-
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
-    }
+  if (a <= k && b <= k) {
+    cout << 1 << endl;
+    return;
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  // for (ll i = 2; i <= sqrt(min(a, b)); i++) {
+  //   if (!(a % i) && !(b % i)) {
+  //     if (((a / i) <= k) && ((b / i) <= k)) {
+  //       cout << 1 << endl;
+  //       return;
+  //     }
+  //   }
+  // }
+
+  ll gd = gcd(a, b);
+  if ((a / gd <= k) && (b / gd <= k)) {
+    cout << 1 << endl;
+    return;
+  } else {
+    cout << 2 << endl;
+    return;
+  }
+
+  cout << 2 << endl;
 }
 
 int main() {

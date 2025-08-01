@@ -26,62 +26,36 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
 
   string s;
   cin >> s;
 
-  char pv;
+  ll n = s.size();
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  ll ct = 0;
+  ll cn = 0;
 
-  for (int i = 0; i < s.size(); i++) {
+  vector<char> ans;
 
-    if (!i)
-      pv = s[0];
+  for (ll i = 0, j = 0; i < n; i++) {
+    if (s[i] == 'T')
+      ct++;
+    else if (s[i] == 'N')
+      cn++;
     else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+      ans.push_back(s[i]);
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  for (int i = 0; i < ct; i++)
+    cout << "T";
+  for (int i = 0; i < ans.size(); i++)
+    cout << ans[i];
+  for (int i = 0; i < cn; i++)
+    cout << "N";
+
+  cout << endl;
 }
 
 int main() {

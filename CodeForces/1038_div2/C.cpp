@@ -26,62 +26,36 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  ll n;
+  cin >> n;
 
-  string s;
-  cin >> s;
+  vector<pair<long, long>> xc(n);
+  vector<pair<long, long>> yc(n);
 
-  char pv;
+  for (ll i = 0; i < n; i++) {
+    ll x, y;
+    cin >> x >> y;
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
-
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
-    }
+    xc[i] = {x, i};
+    yc[i] = {y, i};
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  sort(xc.begin(), xc.end());
+  sort(yc.begin(), yc.end());
+  
+  
+  
+  vll q1, q2, q3, q4;
+
+  for(ll i = 0; i < n; i++){
+      if((xc[i].ss > (n / 2)) && yc[i].ss > (n / 2)) q1.push_back({xc[i].ss + 1
+    });
+
+  }
+
+
+
 }
 
 int main() {

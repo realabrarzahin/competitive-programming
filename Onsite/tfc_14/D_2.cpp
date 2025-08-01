@@ -17,6 +17,7 @@ using umll = unordered_map<int, int>;
 #define sz(x) (int)(x).size()
 
 const int MOD = 1e9 + 7;  // Common modulus
+const int MAX = 1e6;  // Common modulus
 const int INF = 1e9 + 5;  // Integer infinity
 const ll LINF = 1e18 + 5; // Long long infinity
 const int N = 2e5 + 5;    // Adjust according to problem size
@@ -26,68 +27,45 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
+void solve() {
+  ll n;
+  cin >> n;
 
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
+  vll cnt(MOD);
+  ll sum = 0;
+
+  vll a(n);
+
+  for (ll i = 0; i < n; i++) {
+
+    cin >> a[i];
+    cnt[a[i]]++;
+    sum += a[i];
   }
 
-  return res % 998244353;
-}
+  for (ll i = 0; i < n; i++) {
 
-void solve() {
-
-  string s;
-  cin >> s;
-
-  char pv;
-
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
-
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
+    if (sum % 2)
+      cout << "NO" << endl;
     else {
-      if (s[i] == pv) {
-        n++;
 
-        if (i == (s.size() - 1)) {
+      sum = sum - a[i];
+      cnt[a[i]]--;
 
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
+      if ((sum / 2 < MAX) && (cnt[sum / 2]))
+        cout << "YES" << endl;
+      else
+        cout << "NO" << endl;
 
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+      sum = sum = a[i];
+      cnt[a[i]]++;
     }
   }
-
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
 }
 
 int main() {
   fastIO();
-  int T;
-  cin >> T; // Comment this line if single test case
+  int T = 1;
   while (T--)
     solve();
   return 0;

@@ -26,68 +26,39 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
-
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
-  }
-
-  return res % 998244353;
-}
-
 void solve() {
+  int n;
+  cin >> n;
 
-  string s;
-  cin >> s;
+  ll e = 0, d = 0;
 
-  char pv;
+  vll a(n + 1);
+  a[0] = 0;
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
-
-  for (int i = 0; i < s.size(); i++) {
-
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
-
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
-    }
+  for (int i = 1; i <= n; i++) {
+    cin >> a[i];
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  for (int i = 0; i < n; i++) {
+    ll x = a[i] - a[i + 1];
+
+    if (x < 0) {
+      if ((e + x) >= 0) {
+        e = e + x;
+      } else {
+        d = d + abs(e + x);
+      }
+
+    } else
+      e = e + x;
+  }
+
+  cout << d << endl;
 }
 
 int main() {
   fastIO();
-  int T;
-  cin >> T; // Comment this line if single test case
+  int T = 1;
   while (T--)
     solve();
   return 0;

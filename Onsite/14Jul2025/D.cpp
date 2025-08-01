@@ -26,68 +26,53 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
+void solve() {
+  int n;
+  cin >> n;
 
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
+  vector<pair<long, long>> a(n);
+
+  for (int i = 0; i < n; i++) {
+    ll x;
+    cin >> x;
+    a[i] = {x, i};
   }
 
-  return res % 998244353;
-}
+  sort(a.begin(), a.end());
+  
 
-void solve() {
+  ll med = n / 2 - 1;
 
-  string s;
-  cin >> s;
 
-  char pv;
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  vector<pair<long, long>> ans(n);
 
-  for (int i = 0; i < s.size(); i++) {
 
-    if (!i)
-      pv = s[0];
-    else {
-      if (s[i] == pv) {
-        n++;
 
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+  for(int i = 0; i < n; i++){
+    if(med < i) {
+      ans[i].ff = a[i].ss;
+      ans[i].ss = a[med].ff;
+    }else{
+      ans[i].ff = a[i].ss;
+      ans[i].ss = a[med + 1].ff;
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  sort(ans.begin(), ans.end());
+  
+
+  for(int i = 0; i < n; i++){
+    cout << ans[i].ss << endl;
+  }
+  
+
 }
 
 int main() {
   fastIO();
   int T;
-  cin >> T; // Comment this line if single test case
+  T = 1; // Comment this line if single test case
   while (T--)
     solve();
   return 0;

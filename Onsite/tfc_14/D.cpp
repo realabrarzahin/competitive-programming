@@ -26,68 +26,63 @@ void fastIO() {
   cin.tie(nullptr);
 }
 
-ll nPr(ll n, ll r) {
-  ll res = 1;
+void solve() {
+  int n;
+  cin >> n;
 
-  for (int i = 0; i < r; ++i) {
-    res *= (n - i);
+  vll a(n);
+  ll sum = 0;
+
+  for (int i = 0; i < n; i++) {
+    cin >> a[i];
+    sum += a[i];
   }
 
-  return res % 998244353;
-}
+  vll b(n);
 
-void solve() {
+  for (int i = 0; i < n; i++) {
+    b[i] = sum - a[i];
+  }
 
-  string s;
-  cin >> s;
+  set<ll> c;
 
-  char pv;
+  vector<pll> r(n), s(n);
 
-  ll n = 0;
-  ll af = 0;
-  ll as = 1;
+  for (int i = 0; i < n; i++) {
+    r[i] = {a[i], i};
+    s[i] = {b[i], i};
+  }
 
-  for (int i = 0; i < s.size(); i++) {
+  sort(r.begin(), r.end());
 
-    if (!i)
-      pv = s[0];
+  vll r1(n);
+  vll r2(n);
+
+  for (int i = 0; i < n; i++) {
+    r1[i] = r[i].ff;
+    r2[i] = r[i].ss;
+  }
+
+  for (ll i = 0; i < n; i++) {
+
+    if (s[i].ff % 2)
+      continue;
     else {
-      if (s[i] == pv) {
-        n++;
+      auto it = binary_search(r1.begin(), r1.end(), s[i].ff / 2);
 
-        if (i == (s.size() - 1)) {
-
-          if (n) {
-            af += n;
-            as *= nPr(n + 1, n);
-          }
-        }
-
-      }
-
-      else {
-        pv = s[i];
-
-        if (n) {
-          af += n;
-          as += nPr(n + 1, n);
-        }
-
-        n = 0;
-      }
+      c.insert(it);
     }
   }
 
-  if (af)
-    cout << af << " " << as << endl;
-  else
-    cout << 0 << " " << 1 << endl;
+  cout << c.size() << endl;
+
+  for (auto x : c)
+    cout << x << " ";
 }
 
 int main() {
   fastIO();
-  int T;
-  cin >> T; // Comment this line if single test case
+  int T = 1;
   while (T--)
     solve();
   return 0;
